@@ -86,5 +86,28 @@ Second, you’re adding a new field called createdAt: DateTime! @createdAt. Than
 The `context` argument is a plain JavaScript object that every resolver in the resolver chain can read from and write to - it thus basically is a means for resolvers to communicate. As you’ll see in a bit, it’s also possible to already write to it at the moment when the GraphQL server itself is being initialized. So, it’s also a way for you to pass arbitrary data or functions to the resolvers. In this case, you’re going to attach this `prisma` client instance to the `context` - more about that soon.
 
 
+## Realtime GraphQL Subscriptions
+
+#### What are GraphQL subscriptions?
+Subscriptions are a GraphQL feature that allows a server to send data to its clients when a specific event happens. Subscriptions are usually implemented with WebSockets. In that setup, the server maintains a steady connection to its subscribed client. This also breaks the “Request-Response-Cycle” that were used for all previous interactions with the API.
+
+Instead, the client initially opens up a long-lived connection to the server by sending a subscription query that specifies which event it is interested in. Every time this particular event happens, the server uses the connection to push the event data to the subscribed client(s).
+
+#### Subscriptions with Prisma
+Luckily, Prisma comes with out-of-the-box support for subscriptions.
+
+For each model in your Prisma datamodel, Prisma lets you subscribe to the following events:
+
+- A new model is `created`
+- An existing model `updated`
+- An existing model is `deleted`
+
+You can subscribe to these events using the $subscribe method of the Prisma client.
+
+Resolvers for subscriptions are slightly different than the ones for queries and mutations:
+
+1. Rather than returning any data directly, they return an `AsyncIterator` which subsequently is used by the GraphQL server to push the event data to the client.
+2. Subscription resolvers are wrapped inside an object and need to be provided as the value for a `subscribe` field. You also need to provide another field called `resolve` that actually returns the data from the data emitted by the `AsyncIterator`.
+
 
 Source: [How To GraphQL](https://www.howtographql.com/)
