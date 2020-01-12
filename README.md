@@ -115,5 +115,16 @@ Resolvers for subscriptions are slightly different than the ones for queries and
 #### Filtering
 Thanks to Prisma, you’ll be able to implement filtering capabilities to your API without major effort. Similar to the previous chapters, the heavy-lifting of query resolution will be performed by the powerful Prisma engine. All you need to do is forward incoming queries to it.
 
+#### Pagination
+Pagination is a tricky topic in API design. On a high-level, there are two major approaches regarding how it can be tackled:
+
+- Limit-Offset: Request a specific chunk of the list by providing the indices of the items to be retrieved (in fact, you’re mostly providing the start index (offset) as well as a count of items to be retrieved (limit)).
+- Cursor-based: This pagination model is a bit more advanced. Every element in the list is associated with a unique ID (the cursor). Clients paginating through the list then provide the cursor of the starting element as well as a count of items to be retrieved.
+
+Limit and offset are called differently in the Prisma API:
+
+- The limit is called `first`, meaning you’re grabbing the first x elements after a provided start index. Note that you also have a `last` argument available which correspondingly returns the last x elements.
+- The start index is called `skip`, since you’re skipping that many elements in the list before collecting the items to be returned. If `skip` is not provided, it’s `0` by default. The pagination then always starts from the beginning of the list (or the end in case you’re using `last`).
+
 
 Source: [How To GraphQL](https://www.howtographql.com/)
