@@ -126,5 +126,8 @@ Limit and offset are called differently in the Prisma API:
 - The limit is called `first`, meaning you’re grabbing the first x elements after a provided start index. Note that you also have a `last` argument available which correspondingly returns the last x elements.
 - The start index is called `skip`, since you’re skipping that many elements in the list before collecting the items to be returned. If `skip` is not provided, it’s `0` by default. The pagination then always starts from the beginning of the list (or the end in case you’re using `last`).
 
+#### Sorting
+With Prisma, it is possible to return lists of elements that are sorted (ordered) according to specific criteria. You’ll leave it up to the client to decide how exactly it should be sorted and thus include all the ordering options from the Prisma API in the API of your GraphQL server. You can do so by creating an enum that represents the ordering options.
+
 
 Source: [How To GraphQL](https://www.howtographql.com/)
