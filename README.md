@@ -110,4 +110,10 @@ Resolvers for subscriptions are slightly different than the ones for queries and
 2. Subscription resolvers are wrapped inside an object and need to be provided as the value for a `subscribe` field. You also need to provide another field called `resolve` that actually returns the data from the data emitted by the `AsyncIterator`.
 
 
+## Filtering, Pagination & Sorting
+
+#### Filtering
+Thanks to Prisma, you’ll be able to implement filtering capabilities to your API without major effort. Similar to the previous chapters, the heavy-lifting of query resolution will be performed by the powerful Prisma engine. All you need to do is forward incoming queries to it.
+
+
 Source: [How To GraphQL](https://www.howtographql.com/)
